@@ -1,0 +1,294 @@
+﻿<Window
+    x:Class="KaffeemaschineWPF.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:KaffeemaschineWPF.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:KaffeemaschineWPF.ViewModels"
+    Title="Ronnys Coffeeshop"
+    Width="800"
+    Height="550"
+    d:DataContext="{d:DesignInstance {x:Type vm:MainWindowViewModel}}"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <conv:EnumToCollectionConverter x:Key="EnumToCollectionConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Style x:Key="IsCoffeeVisibleImage" TargetType="Image">
+            <Setter Property="Width" Value="3"/>
+            <Setter Property="Grid.Row" Value="2"/>
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="Height" Value="6"/>
+            <Setter Property="Source" Value="/Images/coffee1.png"/>
+            <Setter Property="Stretch" Value="Fill"/>
+            <Setter Property="Visibility" Value="{Binding IsCoffeeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.ColumnSpan="3" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+
+            <Image Source="/Images/Coffee.png" Stretch="Uniform" />
+            <TextBlock
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                FontSize="45"
+                Text="Ronnys Coffeeshop" />
+            <Image
+                Grid.Column="2"
+                Source="/Images/Coffee.png"
+                Stretch="Uniform" />
+        </Grid>
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                FontWeight="bold"
+                Text="Maximale Füllmenge" />
+            <TextBlock
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="Wasser:" />
+            <TextBlock
+                Grid.Row="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="Bohnen" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="8"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{Binding KaffeeMaschine.MaxWater, Mode=OneTime}" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="2"
+                Margin="8"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{Binding KaffeeMaschine.MaxBeans, Mode=OneTime}" />
+            <TextBlock
+                Grid.Row="3"
+                Margin="8"
+                HorizontalAlignment="Center"
+                Text="Wasserstand" />
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="2"
+                Margin="8"
+                HorizontalAlignment="Center"
+                Text="Bohnenstand" />
+            <ProgressBar
+                Grid.Row="4"
+                Width="20"
+                Height="50"
+                Margin="8"
+                Foreground="Blue"
+                Maximum="{Binding KaffeeMaschine.MaxWater, Mode=OneTime}"
+                Orientation="Vertical"
+                Value="{Binding KaffeeMaschine.Water}" />
+            <ProgressBar
+                Grid.Row="4"
+                Grid.Column="1"
+                Width="20"
+                Height="50"
+                Margin="8"
+                Foreground="Brown"
+                Maximum="{Binding KaffeeMaschine.MaxBeans, Mode=OneTime}"
+                Orientation="Vertical"
+                Value="{Binding KaffeeMaschine.Beans}" />
+
+            <TextBlock
+                Grid.Row="5"
+                HorizontalAlignment="Center"
+                Text="{Binding KaffeeMaschine.Water, StringFormat=N2}" />
+            <TextBlock
+                Grid.Row="5"
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                Text="{Binding KaffeeMaschine.Beans, StringFormat=N2}" />
+            <StackPanel Grid.Row="6" Orientation="Horizontal">
+                <TextBlock Margin="3" Text="Gesamtmenge:" />
+                <TextBlock Margin="3" Text="{Binding KaffeeMaschine.TotalAmount}" />
+                <TextBlock Margin="3" Text="l" />
+            </StackPanel>
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontWeight="bold"
+                Text="Auffüllen" />
+            <TextBlock
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                Text="Wasser" />
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Width="100"
+                    Height="20"
+                    Text="{Binding FillWaterAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <Button
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Padding="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Command="{Binding FillWaterCommand}"
+                    Content="Auffüllen" />
+            </Grid>
+            <TextBlock
+                Grid.Row="3"
+                HorizontalAlignment="Center"
+                Text="Bohnen" />
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Width="100"
+                    Height="20"
+                    Text="{Binding FillBeansAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <Button
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Padding="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Command="{Binding FillBeansCommand}"
+                    Content="Auffüllen" />
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontWeight="Bold"
+                    Text="Zubereitung" />
+                <TextBlock
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    Text="Menge in Liter" />
+                <TextBox
+                    Grid.Row="2"
+                    Width="100"
+                    Height="20"
+                    Text="{Binding MakeCoffeeAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <StackPanel Grid.Row="3">
+                    <TextBlock HorizontalAlignment="Center" Text="Kaffeestärke" />
+
+                    <ListBox
+                        HorizontalAlignment="Center"
+                        BorderThickness="0"
+                        ItemsSource="{Binding SelectedCoffeeStrength, Converter={StaticResource EnumToCollectionConverter}}"
+                        SelectedItem="{Binding SelectedCoffeeStrength}">
+                        <ListBox.ItemContainerStyle>
+                            <!--  Style to get rid of the selection visual  -->
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <RadioButton Content="{Binding}" GroupName="Properties">
+                                    <!--  Binding IsChecked to IsSelected requires no support code  -->
+                                    <RadioButton.IsChecked>
+                                        <Binding
+                                            Mode="TwoWay"
+                                            Path="IsSelected"
+                                            RelativeSource="{RelativeSource AncestorType=ListBoxItem}" />
+                                    </RadioButton.IsChecked>
+                                </RadioButton>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </StackPanel>
+                <Button
+                    Grid.Row="4"
+                    Margin="5"
+                    Padding="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Command="{Binding MakeCoffeeCommand}"
+                    Content="Zubereiten" />
+            </Grid>
+        </Grid>
+        <Image
+            Grid.Row="2"
+            Grid.Column="1"
+            Height="180"
+            Source="/Images/kaffeemaschine.png" />
+        <Image Style="{StaticResource IsCoffeeVisibleImage}">
+            <Image.RenderTransform>
+                <TranslateTransform X="-11" Y="-3" />
+            </Image.RenderTransform>
+        </Image>
+        <Image Style="{StaticResource IsCoffeeVisibleImage}">
+            <Image.RenderTransform>
+                <TranslateTransform X="16" Y="-3" />
+            </Image.RenderTransform>
+        </Image>
+    </Grid>
+</Window>

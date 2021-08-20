@@ -1,0 +1,135 @@
+﻿<Window
+    x:Class="KaffeemaschineWPF.Views.SignUpWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="clr-namespace:KaffeemaschineWPF.Behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:e="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:r="clr-namespace:KaffeemaschineWPF.ValidationRules"
+    xmlns:vm="clr-namespace:KaffeemaschineWPF.ViewModels"
+    Title="Registrieren"
+    Width="400"
+    Height="500"
+    d:DataContext="{d:DesignInstance {x:Type vm:SignUpViewModel}}"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Style x:Key="TextBoxInError" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="IsRegisterSuccssedTextBox" TargetType="TextBlock">
+            <Setter Property="Text" Value="Registrierung erfolgreich" />
+            <Setter Property="Foreground" Value="Red" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Visibility" Value="{Binding IsRegisterSuccssed, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Style>
+    </Window.Resources>
+    <StackPanel>
+        <TextBlock
+            Margin="5"
+            HorizontalAlignment="Center"
+            FontSize="18"
+            Text="Sign Up" />
+        <TextBlock Margin="5" Text="Vorname" />
+        <TextBox Margin="5" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <e:Interaction.Behaviors>
+                <b:TextBoxBehavior AllowWhiteSpaces="True" RegExPattern="[A-Za-z]" />
+            </e:Interaction.Behaviors>
+        </TextBox>
+        <TextBlock Margin="5" Text="Nachname" />
+        <TextBox Margin="5" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <e:Interaction.Behaviors>
+                <b:TextBoxBehavior AllowWhiteSpaces="True" RegExPattern="[A-Za-z]" />
+            </e:Interaction.Behaviors>
+        </TextBox>
+        <TextBlock Margin="5" Text="E-Mail" />
+        <TextBox Margin="5" Style="{StaticResource TextBoxInError}">
+            <TextBox.Text>
+                <Binding Path="Email">
+                    <Binding.ValidationRules>
+                        <r:EmailRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+            <e:Interaction.Behaviors>
+                <b:TextBoxBehavior AllowWhiteSpaces="False" RegExPattern="[A-Za-z0-9@.]" />
+            </e:Interaction.Behaviors>
+        </TextBox>
+        <TextBlock Margin="5" Text="Straße und Hausnummer" />
+        <TextBox Margin="5" Style="{StaticResource TextBoxInError}">
+            <TextBox.Text>
+                <Binding Path="StreetAndHouseNumber">
+                    <Binding.ValidationRules>
+                        <r:OneSpaceRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+            <e:Interaction.Behaviors>
+                <b:TextBoxBehavior AllowWhiteSpaces="True" RegExPattern="[A-Za-z0-9.ß]" />
+            </e:Interaction.Behaviors>
+        </TextBox>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Margin="5" Text="PLZ" />
+            <TextBox
+                Grid.Row="1"
+                Width="45"
+                Margin="5"
+                HorizontalAlignment="Left"
+                MaxLength="5"
+                Text="{Binding Postcode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <e:Interaction.Behaviors>
+                    <b:TextBoxBehavior AllowWhiteSpaces="True" RegExPattern="[0-9]" />
+                </e:Interaction.Behaviors>
+            </TextBox>
+            <TextBlock
+                Grid.Column="1"
+                Margin="5"
+                Text="Stadt" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="5"
+                Text="{Binding City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <e:Interaction.Behaviors>
+                    <b:TextBoxBehavior AllowWhiteSpaces="True" RegExPattern="[A-Za-z-]" />
+                </e:Interaction.Behaviors>
+            </TextBox>
+        </Grid>
+        <TextBlock Margin="5" Text="Benutzername" />
+        <TextBox Margin="5" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <e:Interaction.Behaviors>
+                <b:TextBoxBehavior AllowWhiteSpaces="False" RegExPattern="[A-Za-z0-9]" />
+            </e:Interaction.Behaviors>
+        </TextBox>
+        <TextBlock Margin="5" Text="Passwort" />
+        <PasswordBox Margin="5" PasswordChar="*">
+            <e:Interaction.Triggers>
+                <e:EventTrigger EventName="PasswordChanged">
+                    <e:InvokeCommandAction PassEventArgsToCommand="True" Command="{Binding PasswordChangedCommand}"/>
+                </e:EventTrigger>
+            </e:Interaction.Triggers>
+        </PasswordBox>
+        <Separator />
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
+                Margin="5"
+                Padding="5"
+                Command="{Binding SignUpCommand}"
+                Content="Registrieren" />
+            <TextBlock Style="{StaticResource IsRegisterSuccssedTextBox}" />
+        </StackPanel>
+    </StackPanel>
+</Window>
