@@ -7,10 +7,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DatabaseService;
+using KaffeemaschineWPF.Const;
 using KaffeemaschineWPF.Extensions;
 using KaffeemaschineWPF.Framework;
 using KaffeemaschineWPF.Models;
 using KaffeemaschineWPF.Views;
+using Prism.Regions;
 
 namespace KaffeemaschineWPF.ViewModels
 {
@@ -19,6 +21,9 @@ namespace KaffeemaschineWPF.ViewModels
         private string _username;
         private string _password;
         private bool _isLoginFailed;
+        private readonly IRegionManager _regionManager;
+        private PasswordBox _passwordBox;
+
 
         private readonly DatabaseManager databaseManager = new DatabaseManager();
 
@@ -42,36 +47,55 @@ namespace KaffeemaschineWPF.ViewModels
             get => _isLoginFailed;
             set => SetProperty(ref _isLoginFailed, value);
         }
-        public LoginUserControlViewModel()
+        public LoginUserControlViewModel(IRegionManager regionManager)
         {
+            _regionManager = regionManager;
             PasswordChangedCommand = new RelayCommandGen<RoutedEventArgs>(PasswordChanged);
-            SignInCommand = new RelayCommand(CheckLogin);
+            SignInCommand = new RelayCommand(CheckLogin, CheckNotEmpty);
             SignUpCommand = new RelayCommand(OpenRegister);
+        }
+        private bool CheckNotEmpty()
+        {
+            return !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
+        }
+        private void Navigate(string navigatePath)
+        {
+            if (navigatePath != null)
+                _regionManager.RequestNavigate(Regions.CONTENT_REGION, navigatePath);
         }
         private void CheckLogin()
         {
             if (databaseManager.Login(new User(Username, Password.HashPassword())))
             {
                 IsLoginFailed = false;
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                //MessageBox.Show("True", "True", MessageBoxButton.OK);
+                //MainWindow mainWindow = new MainWindow();
+                //mainWindow.Show();
+                Navigate(nameof(CoffeemachineUserControl));
             }
             else
             {
                 IsLoginFailed = true;
-
             }
+            ClearFields();
         }
         private void OpenRegister()
         {
-            SignUpWindow signUpWindow = new SignUpWindow();
-            signUpWindow.Show();
+            ClearFields();
+            Navigate(nameof(SignUpUserControl));
         }
         private void PasswordChanged(RoutedEventArgs args)
         {
             if (args.Source is PasswordBox passwordBox)
+            {
                 Password = passwordBox.Password;
+                if (_passwordBox == null)
+                    _passwordBox = passwordBox;
+            }
+        }
+        private void ClearFields()
+        {
+            _passwordBox.Clear();
+            Username = string.Empty;
         }
     }
 

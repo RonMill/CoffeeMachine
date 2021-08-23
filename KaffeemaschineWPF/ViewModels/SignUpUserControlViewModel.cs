@@ -1,7 +1,10 @@
 ﻿using DatabaseService;
+using KaffeemaschineWPF.Const;
 using KaffeemaschineWPF.Extensions;
 using KaffeemaschineWPF.Framework;
 using KaffeemaschineWPF.Models;
+using KaffeemaschineWPF.Views;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +17,7 @@ using System.Windows.Input;
 
 namespace KaffeemaschineWPF.ViewModels
 {
-    public class SignUpViewModel : ObservableObject
+    public class SignUpUserControlViewModel : ObservableObject
     {
         private string _firstName;
         private string _lastName;
@@ -27,9 +30,11 @@ namespace KaffeemaschineWPF.ViewModels
         private bool _isRegisterSuccssed;
 
         private readonly DatabaseManager databaseManager = new DatabaseManager();
+        private readonly IRegionManager _regionManager;
 
         public ICommand SignUpCommand { get; }
         public ICommand PasswordChangedCommand { get; }
+        public ICommand BackToLoginCommand { get; }
 
         //Properties
         public string FirstName
@@ -78,12 +83,25 @@ namespace KaffeemaschineWPF.ViewModels
             set { SetProperty(ref _isRegisterSuccssed, value); }
         }
         //Ctor
-        public SignUpViewModel()
+        public SignUpUserControlViewModel(IRegionManager regionManager)
         {
+            _regionManager = regionManager;
             SignUpCommand = new RelayCommand(AddUserMethod, CheckNotEmpty);
+            BackToLoginCommand = new RelayCommand(GoToLogin);
             PasswordChangedCommand = new RelayCommandGen<RoutedEventArgs>(PasswordChanged);
         }
-        ~SignUpViewModel()
+
+        private void Navigate(string navigatePath)
+        {
+            if (navigatePath != null)
+                _regionManager.RequestNavigate(Regions.CONTENT_REGION, navigatePath);
+        }
+        private void GoToLogin()
+        {
+            Navigate(nameof(LoginUserControl));
+        }
+
+        ~SignUpUserControlViewModel()
         {
             databaseManager.Dispose();
         }

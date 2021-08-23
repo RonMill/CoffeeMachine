@@ -1,5 +1,4 @@
-﻿using KaffeemaschineWPF.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,19 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace KaffeemaschineWPF.Views
 {
     /// <summary>
-    /// Interaktionslogik für SignUpWindow.xaml
+    /// Interaktionslogik für SignUpUserControl.xaml
     /// </summary>
-    public partial class SignUpWindow : Window
+    public partial class SignUpUserControl : UserControl
     {
-        public SignUpWindow()
+        public SignUpUserControl()
         {
             InitializeComponent();
-            DataContext = new SignUpViewModel();
         }
     }
 }

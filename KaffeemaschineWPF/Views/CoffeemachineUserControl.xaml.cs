@@ -1,5 +1,4 @@
-﻿using KaffeemaschineWPF.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,12 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KaffeemaschineWPF.Views {
+namespace KaffeemaschineWPF.Views
+{
     /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
+    /// Interaktionslogik für CoffeemachineUserControl.xaml
     /// </summary>
-    public partial class MainWindow : Window {
-        public MainWindow() {
+    public partial class CoffeemachineUserControl : UserControl
+    {
+        public CoffeemachineUserControl()
+        {
             InitializeComponent();
         }
     }

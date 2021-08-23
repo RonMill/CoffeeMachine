@@ -18,9 +18,9 @@ namespace KaffeemaschineWPF.Views
     /// <summary>
     /// Interaktionslogik für LoginUserControll.xaml
     /// </summary>
-    public partial class LoginUserControll : UserControl
+    public partial class LoginUserControl : UserControl
     {
-        public LoginUserControll()
+        public LoginUserControl()
         {
             InitializeComponent();
         }

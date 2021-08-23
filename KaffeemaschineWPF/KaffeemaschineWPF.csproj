@@ -100,6 +100,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Behaviors\TextBoxBehavior.cs" />
+    <Compile Include="Const\Regions.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Framework\RelayCommandGen.cs" />
     <Compile Include="MediaManager.cs" />
@@ -109,18 +110,22 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="ValidationRules\EmailRule.cs" />
     <Compile Include="ValidationRules\OneSpaceRule.cs" />
-    <Compile Include="ViewModels\SignUpViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\SignUpUserControlViewModel.cs" />
+    <Compile Include="Views\CoffeemachineUserControl.xaml.cs">
+      <DependentUpon>CoffeemachineUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginUserControl.xaml.cs">
       <DependentUpon>LoginUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SignUpWindow.xaml.cs">
-      <DependentUpon>SignUpWindow.xaml</DependentUpon>
+    <Compile Include="Views\SignUpUserControl.xaml.cs">
+      <DependentUpon>SignUpUserControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\LoginUserControl.xaml">
+    <Page Include="Views\CoffeemachineUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LoginWindow.xaml">
+    <Page Include="Views\LoginUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,20 +141,17 @@
     <Compile Include="Models\CoffeeMachine.cs" />
     <Compile Include="Models\CoffeeMessage.cs" />
     <Compile Include="ViewModels\LoginUserControlViewModel.cs" />
-    <Compile Include="Views\LoginWindow.xaml.cs">
-      <DependentUpon>LoginWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\SignUpWindow.xaml">
+    <Page Include="Views\SignUpUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\CoffeemachineUserControlViewModel.cs" />
     <Compile Include="Framework\ObservableObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -188,6 +190,7 @@
     <Resource Include="Images\kaffeemaschine.png" />
     <Resource Include="Images\lockicon_120641.png" />
     <Resource Include="Images\register.png" />
+    <Resource Include="Images\backbutton.png" />
     <Content Include="Resources\fillbeans.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

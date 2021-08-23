@@ -17,12 +17,14 @@ namespace KaffeemaschineWPF {
     {
         protected override Window CreateShell()
         {
-            return Container.Resolve<LoginWindow>();
+            return Container.Resolve<MainWindow>();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
+            containerRegistry.RegisterForNavigation<SignUpUserControl>();
+            containerRegistry.RegisterForNavigation<LoginUserControl>();
+            containerRegistry.RegisterForNavigation<CoffeemachineUserControl>();
         }
     }
 }
