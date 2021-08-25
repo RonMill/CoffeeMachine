@@ -1,6 +1,7 @@
 ﻿using KaffeemaschineWPF.Const;
 using KaffeemaschineWPF.Framework;
 using KaffeemaschineWPF.Models;
+using KaffeemaschineWPF.States;
 using KaffeemaschineWPF.Views;
 using Prism.Regions;
 using System;
@@ -23,6 +24,12 @@ namespace KaffeemaschineWPF.ViewModels
         private bool _isCoffeeVisible;
         private bool _isMakingCoffee;
         private bool _isFilling;
+        private string _username;
+        private string _firstname;
+        private string _lastname;
+        private string _email;
+        private string _balance;
+        private readonly IUserStates _userStates;
         private readonly IRegionManager _regionManager;
 
         public ICommand FillWaterCommand { get; }
@@ -56,12 +63,38 @@ namespace KaffeemaschineWPF.ViewModels
                 RefreshPrice();
             }
         }
+        public string Username
+        {
+            get => _username;
+            set => SetProperty(ref _username, value);
+        }
 
+        public string Firstname
+        {
+            get => _firstname;
+            set => SetProperty(ref _firstname, value);
+        }
+        public string Lastname
+        {
+            get => _lastname;
+            set => SetProperty(ref _lastname, value);
+        }
+        public string Email
+        {
+            get => _email;
+            set => SetProperty(ref _email, value);
+        }
+        public string Balance
+        {
+            get => _balance;
+            set => SetProperty(ref _balance, value);
+        }
         public CoffeeStrength SelectedCoffeeStrength { get; set; }
         public CoffeemachineUserControlViewModel(IRegionManager regionManager)
         {
             
             _regionManager = regionManager;
+            _userStates = userStates;
             KaffeeMaschine = new CoffeeMachine();
             FillWaterCommand = new RelayCommand(FillWaterMethod, () => FillWaterAmount > 0 && !_isFilling);
             FillBeansCommand = new RelayCommand(FillBeansMethod, () => FillBeansAmount > 0 && !_isFilling);
@@ -70,8 +103,17 @@ namespace KaffeemaschineWPF.ViewModels
             FillWaterMethod();
             FillBeansMethod();
             RefreshCommand = new RelayCommand(RefreshPrice);
+            SetUserInformations();
         }
+        private void SetUserInformations()
+        {
+            Username = _userStates.User.Username;
+            Firstname = _userStates.User.FirstName;
+            Lastname = _userStates.User.LastName;
+            Email = _userStates.User.Email;
+            Balance = _userStates.User.Balance;
 
+        }
         private void RefreshPrice()
         {
             KaffeeMaschine.GetPriceToPay(SelectedCoffeeBrand, MakeCoffeeAmount);
@@ -97,6 +139,7 @@ namespace KaffeemaschineWPF.ViewModels
             _isMakingCoffee = false;
         }
 
+            SetUserInformations();
 
         private async void FillWaterMethod()
         {

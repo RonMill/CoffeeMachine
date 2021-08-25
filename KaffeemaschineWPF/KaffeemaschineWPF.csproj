@@ -114,6 +114,8 @@
     <Compile Include="Models\CoffeeStrength.cs" />
     <Compile Include="Framework\RelayCommand.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="States\IUserStates.cs" />
+    <Compile Include="States\UserStates.cs" />
     <Compile Include="ValidationRules\EmailRule.cs" />
     <Compile Include="ValidationRules\OneSpaceRule.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
