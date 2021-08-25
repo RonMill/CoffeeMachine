@@ -1,9 +1,11 @@
-﻿using KaffeemaschineWPF.Const;
+﻿using DatabaseService;
+using KaffeemaschineWPF.Const;
 using KaffeemaschineWPF.Framework;
 using KaffeemaschineWPF.Models;
 using KaffeemaschineWPF.States;
 using KaffeemaschineWPF.Views;
 using Prism.Regions;
+using SharedObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,8 +20,8 @@ namespace KaffeemaschineWPF.ViewModels
     public class CoffeemachineUserControlViewModel : ObservableObject
     {
 
-        private double _fillWaterAmount=2.5;
-        private double _fillBeansAmount=2.5;
+        private double _fillWaterAmount;
+        private double _fillBeansAmount;
         private double _makeCoffeeAmount;
         private bool _isCoffeeVisible;
         private bool _isMakingCoffee;
@@ -31,6 +33,7 @@ namespace KaffeemaschineWPF.ViewModels
         private string _balance;
         private readonly IUserStates _userStates;
         private readonly IRegionManager _regionManager;
+        private readonly DatabaseManager databaseManager = new DatabaseManager();
 
         public ICommand FillWaterCommand { get; }
         public ICommand FillBeansCommand { get; }
@@ -90,18 +93,19 @@ namespace KaffeemaschineWPF.ViewModels
             set => SetProperty(ref _balance, value);
         }
         public CoffeeStrength SelectedCoffeeStrength { get; set; }
-        public CoffeemachineUserControlViewModel(IRegionManager regionManager)
+        public CoffeeBrand SelectedCoffeeBrand { get; set; }
+
+
+        public CoffeemachineUserControlViewModel(IRegionManager regionManager, IUserStates userStates)
         {
-            
             _regionManager = regionManager;
             _userStates = userStates;
+
             KaffeeMaschine = new CoffeeMachine();
             FillWaterCommand = new RelayCommand(FillWaterMethod, () => FillWaterAmount > 0 && !_isFilling);
             FillBeansCommand = new RelayCommand(FillBeansMethod, () => FillBeansAmount > 0 && !_isFilling);
             MakeCoffeeCommand = new RelayCommand(MakeCoffeeAndShowMessage, () => MakeCoffeeAmount > 0 && !_isMakingCoffee);
             BackToLoginCommand = new RelayCommand(GoToLogin);
-            FillWaterMethod();
-            FillBeansMethod();
             RefreshCommand = new RelayCommand(RefreshPrice);
             SetUserInformations();
         }
@@ -130,16 +134,23 @@ namespace KaffeemaschineWPF.ViewModels
 
         private async void MakeCoffeeAndShowMessage()
         {
+            var text = KaffeeMaschine.Calculate(MakeCoffeeAmount, SelectedCoffeeStrength);
+            if (text != CoffeeMessage.Ok)
+            {
+                ShowMessage(text);
+                return;
+            }
             _isMakingCoffee = true;
             await KaffeeMaschine.PrepareCoffee();
             IsCoffeeVisible = true;
-            var text = await KaffeeMaschine.MakeCoffee(MakeCoffeeAmount, SelectedCoffeeStrength);
-            ShowMessage(text);
+            await KaffeeMaschine.MakeCoffeeSound();
             IsCoffeeVisible = false;
             _isMakingCoffee = false;
-        }
 
+            _userStates.User.Balance = Math.Round((Convert.ToDouble(_userStates.User.Balance) - Convert.ToDouble(KaffeeMaschine.PriceToPay)), 2).ToString();
+            databaseManager.ChangeBalance(_userStates.User, Convert.ToDouble(_userStates.User.Balance));
             SetUserInformations();
+        }
 
         private async void FillWaterMethod()
         {
@@ -157,7 +168,6 @@ namespace KaffeemaschineWPF.ViewModels
         {
             switch (kaffeemeldung)
             {
-
                 case CoffeeMessage.WaterLow: return "Wasser aufüllen";
                 case CoffeeMessage.BeansLow: return "Bohnen auffüllen";
                 case CoffeeMessage.AmountToHigh: return "Maximale Menge überschritten";

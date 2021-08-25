@@ -1,5 +1,5 @@
-﻿using KaffeemaschineWPF.Framework;
 ﻿using KaffeemaschineWPF.APIService;
+using KaffeemaschineWPF.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,17 +98,16 @@ namespace KaffeemaschineWPF.Models
             await mediaManager.LoadSound(CoffeeMachineTasks.GrindCoffee);
             await mediaManager.LoadSound(CoffeeMachineTasks.Pump);
         }
-        public async Task<CoffeeMessage> MakeCoffee(double amount, CoffeeStrength coffeeStrength)
+        public async Task MakeCoffeeSound(/*double amount, CoffeeStrength coffeeStrength*/)
         {
             await mediaManager.LoadSound(CoffeeMachineTasks.MakeEspresso);
-            double ratioBeansToWater = GetRatioForCoffeeStrength(coffeeStrength);
-            double ratioWaterToBeans = 1 - ratioBeansToWater;
-
-            return Calculate(amount, ratioBeansToWater, ratioWaterToBeans);
         }
 
-        private CoffeeMessage Calculate(double amount, double ratioBeans, double ratioWater)
+        public CoffeeMessage Calculate(double amount, CoffeeStrength coffeeStrength)
         {
+            double ratioBeans = GetRatioForCoffeeStrength(coffeeStrength);
+            double ratioWater = 1 - ratioBeans;
+
             double water = amount * ratioWater;
             double beans = amount * ratioBeans;
 
