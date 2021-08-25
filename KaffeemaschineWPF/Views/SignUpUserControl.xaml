@@ -10,7 +10,7 @@
     xmlns:r="clr-namespace:KaffeemaschineWPF.ValidationRules"
     xmlns:viewmodels="clr-namespace:KaffeemaschineWPF.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:SignUpUserControlViewModel}"
-    d:DesignHeight="450"
+    d:DesignHeight="550"
     d:DesignWidth="300"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -138,6 +138,12 @@
                 </e:EventTrigger>
             </e:Interaction.Triggers>
         </PasswordBox>
+        <TextBlock Margin="5" Text="Guthaben in €" />
+        <TextBox Margin="5" Text="{Binding Balance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <e:Interaction.Behaviors>
+                <b:TextBoxBehavior AllowWhiteSpaces="False" RegExPattern="[0-9]" />
+            </e:Interaction.Behaviors>
+        </TextBox>
         <Separator />
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button

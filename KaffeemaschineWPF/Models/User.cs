@@ -13,7 +13,7 @@ namespace KaffeemaschineWPF.Models
         {
 
         }
-        public User(string firstName, string lastName, string email, string street, int housenumber, string postcode, string city, string username, string password)
+        public User(string firstName, string lastName, string email, string street, int housenumber, string postcode, string city, string username, string password, string balance)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -24,6 +24,7 @@ namespace KaffeemaschineWPF.Models
             City = city;
             Username = username;
             Password = password;
+            Balance = balance;
         }
         public User(string username, string password)
         {
@@ -40,5 +41,6 @@ namespace KaffeemaschineWPF.Models
         public string City { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-    }   
+        public string Balance { get; set; }
+    }
 }

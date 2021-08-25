@@ -27,6 +27,7 @@ namespace KaffeemaschineWPF.ViewModels
         private string _city;
         private string _password;
         private string _username;
+        private string _balance;
         private bool _isRegisterSuccssed;
 
         private readonly DatabaseManager databaseManager = new DatabaseManager();
@@ -77,6 +78,11 @@ namespace KaffeemaschineWPF.ViewModels
             get => _password;
             set => SetProperty(ref _password, value);
         }
+        public string Balance
+        {
+            get => _balance;
+            set => SetProperty(ref _balance, value);
+        }
         public bool IsRegisterSuccssed
         {
             get { return _isRegisterSuccssed; }
@@ -110,7 +116,7 @@ namespace KaffeemaschineWPF.ViewModels
         private void AddUserMethod()
         {
             (string street, int housenumber) = SplitStreetHousenumber();
-            databaseManager.AddUser(new User(FirstName, LastName, Email, street, housenumber, Postcode, City, Username, Password.HashPassword()));
+            databaseManager.AddUser(new User(FirstName, LastName, Email, street, housenumber, Postcode, City, Username, Password.HashPassword(), Balance));
             MessageBox.Show("Registrierung erfolgreich", "Registrierung erfolgreich", MessageBoxButton.OKCancel, MessageBoxImage.Information);
 
         }
@@ -122,12 +128,12 @@ namespace KaffeemaschineWPF.ViewModels
         private bool CheckNotEmpty()
         {
             return !string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName) && !string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(StreetAndHouseNumber)
-                && !string.IsNullOrEmpty(Postcode) && !string.IsNullOrEmpty(City) && !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
+                && !string.IsNullOrEmpty(Postcode) && !string.IsNullOrEmpty(City) && !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Balance);
         }
 
         private void PasswordChanged(RoutedEventArgs args)
         {
-            if(args.Source is PasswordBox passwordBox)
+            if (args.Source is PasswordBox passwordBox)
                 Password = passwordBox.Password;
         }
     }
