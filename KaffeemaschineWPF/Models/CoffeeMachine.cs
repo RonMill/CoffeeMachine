@@ -1,4 +1,5 @@
 ﻿using KaffeemaschineWPF.Framework;
+﻿using KaffeemaschineWPF.APIService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,13 @@ namespace KaffeemaschineWPF.Models
 {
     public class CoffeeMachine : ObservableObject
     {
+        private const double PROFIT = 0.8;
         private double _water;
         private double _beans;
         private double _totalAmount;
+        private double _priceToPay;
         private readonly MediaManager mediaManager;
+        private CoffeeAPI coffeeAPI;
 
         public double MaxWater { get; }
         public double MaxBeans { get; }
@@ -32,15 +36,28 @@ namespace KaffeemaschineWPF.Models
             get => _totalAmount;
             set => SetProperty(ref _totalAmount, value);
         }
+        public double PriceToPay
+        {
+            get => _priceToPay;
+            set => SetProperty(ref _priceToPay, value);
+        }
+
         public CoffeeMachine()
         {
             mediaManager = new MediaManager();
+            coffeeAPI = new CoffeeAPI();
             MaxWater = 2.5;
             MaxBeans = 2.5;
             Water = 0;
             Beans = 0;
         }
 
+        public async void GetPriceToPay(CoffeeBrand coffeeBrand, double amount)
+        {
+            double price = await coffeeAPI.GetCoffeePrice(coffeeBrand);
+            price = Math.Round(price / 100 * amount * PROFIT, 2);
+            PriceToPay = price * 0.85;
+        }
         public async Task FillWater(double amount)
         {
 

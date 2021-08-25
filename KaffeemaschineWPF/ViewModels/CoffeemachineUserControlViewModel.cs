@@ -29,6 +29,7 @@ namespace KaffeemaschineWPF.ViewModels
         public ICommand FillBeansCommand { get; }
         public ICommand MakeCoffeeCommand { get; }
         public ICommand BackToLoginCommand { get; }
+        public ICommand RefreshCommand { get; }
         public CoffeeMachine KaffeeMaschine { get; }
 
         public bool IsCoffeeVisible
@@ -46,11 +47,14 @@ namespace KaffeemaschineWPF.ViewModels
             get => _fillBeansAmount;
             set => SetProperty(ref _fillBeansAmount, value);
         }
-
         public double MakeCoffeeAmount
         {
             get => _makeCoffeeAmount;
-            set => SetProperty(ref _makeCoffeeAmount, value);
+            set
+            {
+                SetProperty(ref _makeCoffeeAmount, value);
+                RefreshPrice();
+            }
         }
 
         public CoffeeStrength SelectedCoffeeStrength { get; set; }
@@ -65,8 +69,13 @@ namespace KaffeemaschineWPF.ViewModels
             BackToLoginCommand = new RelayCommand(GoToLogin);
             FillWaterMethod();
             FillBeansMethod();
+            RefreshCommand = new RelayCommand(RefreshPrice);
         }
 
+        private void RefreshPrice()
+        {
+            KaffeeMaschine.GetPriceToPay(SelectedCoffeeBrand, MakeCoffeeAmount);
+        }
         private void Navigate(string navigatePath)
         {
             if (navigatePath != null)
