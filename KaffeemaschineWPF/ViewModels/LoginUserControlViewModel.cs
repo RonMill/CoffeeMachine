@@ -100,7 +100,7 @@ namespace KaffeemaschineWPF.ViewModels
         }
         private void ClearFields()
         {
-            _passwordBox.Clear();
+            _passwordBox?.Clear();
             Username = string.Empty;
         }
     }
