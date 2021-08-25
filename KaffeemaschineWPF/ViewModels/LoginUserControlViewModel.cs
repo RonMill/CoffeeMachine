@@ -11,6 +11,7 @@ using KaffeemaschineWPF.Const;
 using KaffeemaschineWPF.Extensions;
 using KaffeemaschineWPF.Framework;
 using KaffeemaschineWPF.Models;
+using KaffeemaschineWPF.States;
 using KaffeemaschineWPF.Views;
 using Prism.Regions;
 
@@ -22,6 +23,7 @@ namespace KaffeemaschineWPF.ViewModels
         private string _password;
         private bool _isLoginFailed;
         private readonly IRegionManager _regionManager;
+        private readonly IUserStates _userStates;
         private PasswordBox _passwordBox;
 
 
@@ -47,8 +49,9 @@ namespace KaffeemaschineWPF.ViewModels
             get => _isLoginFailed;
             set => SetProperty(ref _isLoginFailed, value);
         }
-        public LoginUserControlViewModel(IRegionManager regionManager)
+        public LoginUserControlViewModel(IRegionManager regionManager, IUserStates userStates)
         {
+            _userStates = userStates;
             _regionManager = regionManager;
             PasswordChangedCommand = new RelayCommandGen<RoutedEventArgs>(PasswordChanged);
             SignInCommand = new RelayCommand(CheckLogin, CheckNotEmpty);
@@ -65,11 +68,14 @@ namespace KaffeemaschineWPF.ViewModels
         }
         private void CheckLogin()
         {
-            if (databaseManager.Login(new User(Username, Password.HashPassword())))
+            User user = new User(Username, Password.HashPassword());
+            
+
+            if (databaseManager.Login(user))
             {
+                databaseManager.GetUser(user);
+                _userStates.User = user;
                 IsLoginFailed = false;
-                //MainWindow mainWindow = new MainWindow();
-                //mainWindow.Show();
                 Navigate(nameof(CoffeemachineUserControl));
             }
             else
@@ -94,7 +100,7 @@ namespace KaffeemaschineWPF.ViewModels
         }
         private void ClearFields()
         {
-            _passwordBox.Clear();
+            _passwordBox?.Clear();
             Username = string.Empty;
         }
     }

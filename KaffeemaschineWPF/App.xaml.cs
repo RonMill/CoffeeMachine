@@ -1,4 +1,5 @@
-﻿using KaffeemaschineWPF.Views;
+﻿using KaffeemaschineWPF.States;
+using KaffeemaschineWPF.Views;
 using Prism.Ioc;
 using Prism.Unity;
 using System;
@@ -25,6 +26,7 @@ namespace KaffeemaschineWPF {
             containerRegistry.RegisterForNavigation<SignUpUserControl>();
             containerRegistry.RegisterForNavigation<LoginUserControl>();
             containerRegistry.RegisterForNavigation<CoffeemachineUserControl>();
+            containerRegistry.RegisterSingleton<IUserStates,UserStates>();
         }
     }
 }

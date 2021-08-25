@@ -42,7 +42,6 @@ namespace KaffeemaschineWPF
                     break;
             }
         }
-
         public async Task PlaySound(string file, int time)
         {
             mediaPlayer = new MediaPlayer();
@@ -54,11 +53,11 @@ namespace KaffeemaschineWPF
 
                 Thread.Sleep(time);
                 dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-                 {
-                     mediaPlayer.Stop();
-                 }));
+                {
+                    
+                }));
             });
+            mediaPlayer.Stop();
         }
     }
 }
-

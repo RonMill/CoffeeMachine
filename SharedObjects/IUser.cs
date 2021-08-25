@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace SharedObjects
 {
@@ -13,5 +14,6 @@ namespace SharedObjects
         string City { get; set; }
         string Username { get; set; }
         string Password { get; set; }
+        string Balance { get; set; }
     }
 }

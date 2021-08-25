@@ -47,6 +47,9 @@
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
     </Reference>
@@ -99,15 +102,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="APIService\CoffeeAPI.cs" />
+    <Compile Include="APIService\CoffeeAPIData.cs" />
     <Compile Include="Behaviors\TextBoxBehavior.cs" />
     <Compile Include="Const\Regions.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Framework\RelayCommandGen.cs" />
     <Compile Include="MediaManager.cs" />
+    <Compile Include="Models\CoffeeBrand.cs" />
     <Compile Include="Models\CoffeeMachineTasks.cs" />
     <Compile Include="Models\CoffeeStrength.cs" />
     <Compile Include="Framework\RelayCommand.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="States\IUserStates.cs" />
+    <Compile Include="States\UserStates.cs" />
     <Compile Include="ValidationRules\EmailRule.cs" />
     <Compile Include="ValidationRules\OneSpaceRule.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

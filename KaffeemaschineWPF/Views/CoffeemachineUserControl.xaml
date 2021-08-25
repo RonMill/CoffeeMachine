@@ -10,12 +10,15 @@
     xmlns:viewmodels="clr-namespace:KaffeemaschineWPF.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:CoffeemachineUserControlViewModel}"
     d:DesignHeight="550"
-    d:DesignWidth="800"
+    d:DesignWidth="950"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Storyboard x:Key="Coffeeanimation" AutoReverse="True">
-            <DoubleAnimation Storyboard.TargetProperty="Width" To="10" Duration="0:0:2.5"/>
+            <DoubleAnimation
+                Storyboard.TargetProperty="Width"
+                To="10"
+                Duration="0:0:2.5" />
 
         </Storyboard>
         <conv:EnumToCollectionConverter x:Key="EnumToCollectionConverter" />
@@ -31,7 +34,7 @@
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsCoffeeVisible}" Value="true">
                     <DataTrigger.EnterActions>
-                        <BeginStoryboard Storyboard="{StaticResource Coffeeanimation}"/>
+                        <BeginStoryboard Storyboard="{StaticResource Coffeeanimation}" />
                     </DataTrigger.EnterActions>
                 </DataTrigger>
             </Style.Triggers>
@@ -63,8 +66,11 @@
                 <Image Source="/Images/backbutton.png" />
             </Button>
         </Grid>
-        
-        <Grid Grid.Row="1" Grid.ColumnSpan="3" Margin="10">
+
+        <Grid
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="*" />
@@ -256,51 +262,141 @@
                     Width="100"
                     Height="20"
                     Text="{Binding MakeCoffeeAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                <StackPanel Grid.Row="3">
-                    <TextBlock HorizontalAlignment="Center" Text="Kaffeestärke" />
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Grid.Column="0"
+                        Height="63"
+                        VerticalAlignment="Bottom">
+                        <TextBlock HorizontalAlignment="Center" Text="Kaffeestärke" />
+                        <ListBox
+                            HorizontalAlignment="Center"
+                            BorderThickness="0"
+                            ItemsSource="{Binding SelectedCoffeeStrength, Converter={StaticResource EnumToCollectionConverter}}"
+                            SelectedItem="{Binding SelectedCoffeeStrength}">
+                            <ListBox.ItemContainerStyle>
+                                <!--  Style to get rid of the selection visual  -->
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <ContentPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <RadioButton Content="{Binding}" GroupName="Properties">
+                                        <!--  Binding IsChecked to IsSelected requires no support code  -->
+                                        <RadioButton.IsChecked>
+                                            <Binding
+                                                Mode="TwoWay"
+                                                Path="IsSelected"
+                                                RelativeSource="{RelativeSource AncestorType=ListBoxItem}" />
+                                        </RadioButton.IsChecked>
+                                    </RadioButton>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
 
-                    <ListBox
+
+                    <StackPanel
+                        Grid.Column="1"
+                        Height="63"
+                        VerticalAlignment="Bottom">
+                        <TextBlock HorizontalAlignment="Center" Text="Kaffemarke" />
+                        <ListBox
+                            HorizontalAlignment="Center"
+                            BorderThickness="0"
+                            ItemsSource="{Binding SelectedCoffeeBrand, Converter={StaticResource EnumToCollectionConverter}}"
+                            SelectedItem="{Binding SelectedCoffeeBrand}">
+                            <ListBox.ItemContainerStyle>
+                                <!--  Style to get rid of the selection visual  -->
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <ContentPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <RadioButton Content="{Binding}" GroupName="Brand">
+                                        <!--  Binding IsChecked to IsSelected requires no support code  -->
+                                        <RadioButton.IsChecked>
+                                            <Binding
+                                                Mode="TwoWay"
+                                                Path="IsSelected"
+                                                RelativeSource="{RelativeSource AncestorType=ListBoxItem}" />
+                                        </RadioButton.IsChecked>
+                                    </RadioButton>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Grid>
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <TextBlock
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Text="Zu zahlender Preis: " />
+                    <TextBlock
+                        Margin="5"
                         HorizontalAlignment="Center"
-                        BorderThickness="0"
-                        ItemsSource="{Binding SelectedCoffeeStrength, Converter={StaticResource EnumToCollectionConverter}}"
-                        SelectedItem="{Binding SelectedCoffeeStrength}">
-                        <ListBox.ItemContainerStyle>
-                            <!--  Style to get rid of the selection visual  -->
-                            <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                            <ContentPresenter />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <RadioButton Content="{Binding}" GroupName="Properties">
-                                    <!--  Binding IsChecked to IsSelected requires no support code  -->
-                                    <RadioButton.IsChecked>
-                                        <Binding
-                                            Mode="TwoWay"
-                                            Path="IsSelected"
-                                            RelativeSource="{RelativeSource AncestorType=ListBoxItem}" />
-                                    </RadioButton.IsChecked>
-                                </RadioButton>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-
+                        VerticalAlignment="Center"
+                        Text="{Binding KaffeeMaschine.PriceToPay, StringFormat=N2}" />
+                    <Button
+                        Margin="5"
+                        Padding="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding MakeCoffeeCommand, IsAsync=True}"
+                        Content="Zubereiten" />
                 </StackPanel>
-                <Button
-                    Grid.Row="4"
-                    Margin="5"
-                    Padding="3"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Command="{Binding MakeCoffeeCommand,IsAsync=True}"
-                    Content="Zubereiten" />
+
+
             </Grid>
+        </Grid>
+        <Grid Grid.Row="3" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.ColumnSpan="2"
+                Margin="5"
+                HorizontalAlignment="Center"
+                FontSize="15"
+                Text="Benutzerinformationen"
+                TextDecorations="Underline" />
+            <TextBlock Grid.Row="1" Text="Angemeldeter User:  " TextDecorations="Underline"/>
+            <TextBlock Grid.Row="2" Text="Vorname: "/>
+            <TextBlock Grid.Row="3" Text="Nachname: "/>
+            <TextBlock Grid.Row="4" Text="Email: "/>
+            <TextBlock Grid.Row="5" Text="Guthaben: "/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Username}"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Firstname}"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Lastname}"/>
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Email}"/>
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Balance}"/>
+
         </Grid>
         <Image
             Grid.Row="3"
