@@ -16,9 +16,7 @@ namespace KaffeemaschineWPF.ViewModels
     {
         private readonly IContainerExtension _container;
         private readonly IRegionManager _regionManager;
-
         public ICommand MainWindowLoadedCommand { get; }
-
         public MainWindowViewModel(IContainerExtension container, IRegionManager regionManager)
         {
             _container = container;

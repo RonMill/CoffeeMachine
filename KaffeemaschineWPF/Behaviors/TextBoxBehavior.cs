@@ -8,39 +8,29 @@ namespace KaffeemaschineWPF.Behaviors
 {
     public class TextBoxBehavior : Behavior<TextBox>
     {
-
-
-
+        // Using a DependencyProperty as the backing store for AllowWhiteSpaces.  This enables animation, styling, binding, etc...
+        private static readonly DependencyProperty AllowWhiteSpacesProperty =
+            DependencyProperty.Register(nameof(AllowWhiteSpaces), typeof(bool), typeof(TextBox), new PropertyMetadata(true));
+        // Using a DependencyProperty as the backing store for RegExPattern.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RegExPatternProperty =
+            DependencyProperty.Register(nameof(RegExPattern), typeof(string), typeof(TextBox), new PropertyMetadata(null));
         public bool AllowWhiteSpaces
         {
             get { return (bool)GetValue(AllowWhiteSpacesProperty); }
             set { SetValue(AllowWhiteSpacesProperty, value); }
         }
-
-        // Using a DependencyProperty as the backing store for AllowWhiteSpaces.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty AllowWhiteSpacesProperty =
-            DependencyProperty.Register(nameof(AllowWhiteSpaces), typeof(bool), typeof(TextBox), new PropertyMetadata(true));
-
-
         public string RegExPattern
         {
             get { return (string)GetValue(RegExPatternProperty); }
             set { SetValue(RegExPatternProperty, value); }
         }
-
-        // Using a DependencyProperty as the backing store for RegExPattern.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RegExPatternProperty =
-            DependencyProperty.Register(nameof(RegExPattern), typeof(string), typeof(TextBox), new PropertyMetadata(null));
-
-
         protected override void OnAttached()
         {
             AssociatedObject.PreviewTextInput += AssociatedObject_PreviewTextInput;
-            if(!AllowWhiteSpaces)
+            if (!AllowWhiteSpaces)
                 AssociatedObject.PreviewKeyDown += AssociatedObject_PreviewKeyDown;
             base.OnAttached();
         }
-
         private void AssociatedObject_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !Regex.IsMatch(e.Text, RegExPattern);
@@ -55,6 +45,5 @@ namespace KaffeemaschineWPF.Behaviors
             if (!AllowWhiteSpaces)
                 AssociatedObject.PreviewKeyDown -= AssociatedObject_PreviewKeyDown;
         }
-
     }
 }

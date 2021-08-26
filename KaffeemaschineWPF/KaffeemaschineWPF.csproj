@@ -68,6 +68,9 @@
     <Compile Include="Framework\RelayCommandGen.cs" />
     <Compile Include="MediaManager.cs" />
     <Compile Include="Models\Cashout.cs" />
+    <Compile Include="Models\CoffeeBrandEnum.cs" />
+    <Compile Include="Models\CoffeeMachineTasksEnum.cs" />
+    <Compile Include="Models\CoffeeStrengthEnum.cs" />
     <Compile Include="Framework\RelayCommand.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="States\IUserStates.cs" />
@@ -103,7 +106,7 @@
     </Compile>
     <Compile Include="Converters\EnumToCollectionConverter.cs" />
     <Compile Include="Models\CoffeeMachine.cs" />
-    <Compile Include="Models\CoffeeMessage.cs" />
+    <Compile Include="Models\CoffeeMessageEnum.cs" />
     <Compile Include="ViewModels\LoginUserControlViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

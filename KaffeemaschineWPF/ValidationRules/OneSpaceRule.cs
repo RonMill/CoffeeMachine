@@ -17,7 +17,7 @@ namespace KaffeemaschineWPF.ValidationRules
 
             if (value.ToString().Contains(' '))
                 return new ValidationResult(true, null);
-            return new ValidationResult(false,"Bitte Straße und Hausnummer eintragen");
+            return new ValidationResult(false, "Bitte Straße und Hausnummer eintragen");
         }
     }
 }

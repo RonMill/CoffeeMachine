@@ -19,22 +19,21 @@ namespace KaffeemaschineWPF.ViewModels
 {
     public class CoffeemachineUserControlViewModel : ObservableObject
     {
-
         private double _fillWaterAmount;
         private double _fillBeansAmount;
         private double _makeCoffeeAmount;
         private bool _isCoffeeVisible;
         private bool _isMakingCoffee;
-        private bool _isFilling;
+        private bool _isRefilling;
         private string _username;
         private string _firstname;
         private string _lastname;
         private string _email;
         private string _balance;
+        private CoffeeBrandEnum _coffeeBrand;
         private readonly IUserStates _userStates;
         private readonly IRegionManager _regionManager;
         private readonly DatabaseManager databaseManager = new DatabaseManager();
-
         private readonly Cashout cashout;
         public ICommand FillWaterCommand { get; }
         public ICommand FillBeansCommand { get; }
@@ -42,7 +41,6 @@ namespace KaffeemaschineWPF.ViewModels
         public ICommand BackToLoginCommand { get; }
         public ICommand RefreshCommand { get; }
         public CoffeeMachine KaffeeMaschine { get; }
-
         public bool IsCoffeeVisible
         {
             get => _isCoffeeVisible;
@@ -72,7 +70,6 @@ namespace KaffeemaschineWPF.ViewModels
             get => _username;
             set => SetProperty(ref _username, value);
         }
-
         public string Firstname
         {
             get => _firstname;
@@ -93,18 +90,25 @@ namespace KaffeemaschineWPF.ViewModels
             get => _balance;
             set => SetProperty(ref _balance, value);
         }
-        public CoffeeStrength SelectedCoffeeStrength { get; set; }
-        public CoffeeBrand SelectedCoffeeBrand { get; set; }
-
+        public CoffeeStrengthEnum SelectedCoffeeStrength { get; set; }
+        public CoffeeBrandEnum SelectedCoffeeBrand
+        {
+            get => _coffeeBrand;
+            set
+            {
+                SetProperty(ref _coffeeBrand, value);
+                RefreshPrice();
+            }
+        }
 
         public CoffeemachineUserControlViewModel(IRegionManager regionManager, IUserStates userStates)
         {
             _regionManager = regionManager;
             _userStates = userStates;
-
             KaffeeMaschine = new CoffeeMachine();
-            FillWaterCommand = new RelayCommand(FillWaterMethod, () => FillWaterAmount > 0 && !_isFilling);
-            FillBeansCommand = new RelayCommand(FillBeansMethod, () => FillBeansAmount > 0 && !_isFilling);
+            cashout = new Cashout();
+            FillWaterCommand = new RelayCommand(FillWaterMethod, () => FillWaterAmount > 0 && !_isRefilling);
+            FillBeansCommand = new RelayCommand(FillBeansMethod, () => FillBeansAmount > 0 && !_isRefilling);
             MakeCoffeeCommand = new RelayCommand(MakeCoffeeAndShowMessage, () => MakeCoffeeAmount > 0 && !_isMakingCoffee);
             BackToLoginCommand = new RelayCommand(GoToLogin);
             RefreshCommand = new RelayCommand(RefreshPrice);
@@ -127,15 +131,11 @@ namespace KaffeemaschineWPF.ViewModels
             if (navigatePath != null)
                 _regionManager.RequestNavigate(Regions.CONTENT_REGION, navigatePath);
         }
-        private void GoToLogin()
-        {
-            Navigate(nameof(LoginUserControl));
-        }
-
+        private void GoToLogin() => Navigate(nameof(LoginUserControl));
         private async void MakeCoffeeAndShowMessage()
         {
             var text = KaffeeMaschine.Calculate(MakeCoffeeAmount, SelectedCoffeeStrength);
-            if (text != CoffeeMessage.Ok)
+            if (text != CoffeeMessageEnum.Ok)
             {
                 ShowMessage(text);
                 return;
@@ -146,37 +146,36 @@ namespace KaffeemaschineWPF.ViewModels
             await KaffeeMaschine.MakeCoffeeSound();
             IsCoffeeVisible = false;
             _isMakingCoffee = false;
-
-            _userStates.User.Balance = Math.Round((Convert.ToDouble(_userStates.User.Balance) - Convert.ToDouble(KaffeeMaschine.PriceToPay)), 2).ToString();
-            databaseManager.ChangeBalance(_userStates.User, Convert.ToDouble(_userStates.User.Balance));
+            _userStates.User.Balance = Math.Round(Convert.ToDouble(_userStates.User.Balance) - Convert.ToDouble(KaffeeMaschine.PriceToPay), 2).ToString();
+            databaseManager.ChangeBalance(_userStates.User);
             SetUserInformations();
         }
 
         private async void FillWaterMethod()
         {
-            _isFilling = true;
+            _isRefilling = true;
             await KaffeeMaschine.FillWater(FillWaterAmount);
-            _isFilling = false;
+            _isRefilling = false;
         }
         private async void FillBeansMethod()
         {
-            _isFilling = true;
+            _isRefilling = true;
             await KaffeeMaschine.FillBeans(FillBeansAmount);
-            _isFilling = false;
+            _isRefilling = false;
         }
-        private string GetUserMessage(CoffeeMessage kaffeemeldung)
+        private string GetUserMessage(CoffeeMessageEnum kaffeemeldung)
         {
             switch (kaffeemeldung)
             {
-                case CoffeeMessage.WaterLow: return "Wasser aufüllen";
-                case CoffeeMessage.BeansLow: return "Bohnen auffüllen";
-                case CoffeeMessage.AmountToHigh: return "Maximale Menge überschritten";
+                case CoffeeMessageEnum.WaterLow: return "Wasser aufüllen";
+                case CoffeeMessageEnum.BeansLow: return "Bohnen auffüllen";
+                case CoffeeMessageEnum.AmountToHigh: return "Maximale Menge überschritten";
                 default: return "";
             }
         }
-        private void ShowMessage(CoffeeMessage kaffeemeldung)
+        private void ShowMessage(CoffeeMessageEnum kaffeemeldung)
         {
-            if (kaffeemeldung == CoffeeMessage.Ok)
+            if (kaffeemeldung == CoffeeMessageEnum.Ok)
                 return;
             string message = GetUserMessage(kaffeemeldung);
             MessageBox.Show(message, "Kaffeemeldung", MessageBoxButton.OK, MessageBoxImage.Error);

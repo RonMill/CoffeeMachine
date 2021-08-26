@@ -18,9 +18,9 @@ namespace KaffeemaschineWPF.Tests
             coffeeAPI = new CoffeeAPI();
         }
 
-        [TestCase(CoffeeBrand.Arabica,ExpectedResult = 208.07788651128985)]
-        [TestCase(CoffeeBrand.Robusta,ExpectedResult = 109.55561229243003)]
-        public double GetCoffeeDataTest(CoffeeBrand coffeeBrand)
+        [TestCase(CoffeeBrandEnum.Arabica,ExpectedResult = 208.07788651128985)]
+        [TestCase(CoffeeBrandEnum.Robusta,ExpectedResult = 109.55561229243003)]
+        public double GetCoffeeDataTest(CoffeeBrandEnum coffeeBrand)
         {
             double price = coffeeAPI.GetCoffeePrice(coffeeBrand).Result;
             return price;

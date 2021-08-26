@@ -25,15 +25,11 @@ namespace KaffeemaschineWPF.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly IUserStates _userStates;
         private PasswordBox _passwordBox;
-
-
         private readonly DatabaseManager databaseManager = new DatabaseManager();
-
         public ICommand SignInCommand { get; }
         public ICommand SignUpCommand { get; }
         public ICommand PasswordChangedCommand { get; }
         public ICommand ForgotPasswordCommand { get; }
-
         public string Username
         {
             get => _username;
@@ -69,8 +65,6 @@ namespace KaffeemaschineWPF.ViewModels
         private void CheckLogin()
         {
             User user = new User(Username, Password.HashPassword());
-            
-
             if (databaseManager.Login(user))
             {
                 databaseManager.GetUser(user);
@@ -104,5 +98,4 @@ namespace KaffeemaschineWPF.ViewModels
             Username = string.Empty;
         }
     }
-
 }

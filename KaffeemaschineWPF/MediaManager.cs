@@ -14,28 +14,26 @@ namespace KaffeemaschineWPF
     public class MediaManager
     {
         private MediaPlayer mediaPlayer;
-
         public MediaManager()
         {
-
         }
-        public async Task LoadSound(CoffeeMachineTasks coffeeMachineTasks)
+        public async Task LoadSound(CoffeeMachineTasksEnum coffeeMachineTasks)
         {
             switch (coffeeMachineTasks)
             {
-                case CoffeeMachineTasks.FillBeans:
+                case CoffeeMachineTasksEnum.FillBeans:
                     await PlaySound("Resources/fillbeans.wav", 2000);
                     break;
-                case CoffeeMachineTasks.FillWater:
+                case CoffeeMachineTasksEnum.FillWater:
                     await PlaySound("Resources/fillwater.wav", 2000);
                     break;
-                case CoffeeMachineTasks.MakeEspresso:
+                case CoffeeMachineTasksEnum.MakeEspresso:
                     await PlaySound("Resources/espresso.wav", 5000);
                     break;
-                case CoffeeMachineTasks.GrindCoffee:
+                case CoffeeMachineTasksEnum.GrindCoffee:
                     await PlaySound("Resources/grindcoffee.wav", 3000);
                     break;
-                case CoffeeMachineTasks.Pump:
+                case CoffeeMachineTasksEnum.Pump:
                     await PlaySound("Resources/pump.wav", 3000);
                     break;
                 default:
@@ -50,12 +48,8 @@ namespace KaffeemaschineWPF
             var dispatcher = Dispatcher.CurrentDispatcher;
             await Task.Run(() =>
             {
-
                 Thread.Sleep(time);
-                dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-                {
-                    
-                }));
+                dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => { }));
             });
             mediaPlayer.Stop();
         }

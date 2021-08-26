@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace KaffeemaschineWPF.APIService
 {
+    //Source: https://json2csharp.com/
     // CoffeeAPIData myDeserializedClass = JsonConvert.DeserializeObject<CoffeeAPIData>(myJsonResponse); 
     public class Dataset
     {
@@ -73,12 +74,9 @@ namespace KaffeemaschineWPF.APIService
         [JsonProperty("database_id")]
         public int DatabaseId { get; set; }
     }
-
     public class CoffeeAPIData
     {
         [JsonProperty("dataset")]
         public Dataset Dataset { get; set; }
     }
-
-
 }

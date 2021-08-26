@@ -19,7 +19,6 @@ namespace KaffeemaschineWPF.Tests
             coffeeMachine = new CoffeeMachine();
         }
 
-
         [TestCase(20, ExpectedResult = 2.5)]
         [TestCase(1, ExpectedResult = 1)]
         [TestCase(0.5, ExpectedResult = 0.5)]
@@ -38,17 +37,18 @@ namespace KaffeemaschineWPF.Tests
             return coffeeMachine.Beans;
         }
 
-        [TestCase(5,5,2, CoffeeStrength.Mittel, ExpectedResult = CoffeeMessage.Ok)]
-        [TestCase(0.1,5,2,CoffeeStrength.Mittel, ExpectedResult = CoffeeMessage.WaterLow)]
-        [TestCase(5, 0.1,2, CoffeeStrength.Mittel, ExpectedResult = CoffeeMessage.BeansLow)]
-        [TestCase(2.5, 2.5,10, CoffeeStrength.Mittel, ExpectedResult = CoffeeMessage.AmountToHigh)]
+        [TestCase(5, 5, 2, CoffeeStrengthEnum.Mittel, ExpectedResult = CoffeeMessageEnum.Ok)]
+        [TestCase(0.1, 5 ,2, CoffeeStrengthEnum.Mittel, ExpectedResult = CoffeeMessageEnum.WaterLow)]
+        [TestCase(5, 0.1, 2, CoffeeStrengthEnum.Mittel, ExpectedResult = CoffeeMessageEnum.BeansLow)]
+        [TestCase(2.5, 2.5, 10, CoffeeStrengthEnum.Mittel, ExpectedResult = CoffeeMessageEnum.AmountToHigh)]
 
-        public CoffeeMessage MakeCoffeeTest(double amountWater, double amountBeans, double amountCoffee, CoffeeStrength coffeeStrength)
+        public CoffeeMessageEnum CalculateCoffeeTest(double amountWater, double amountBeans, double amount, CoffeeStrengthEnum coffeeStrength)
         {
             coffeeMachine.FillWater(amountWater).Wait();
             coffeeMachine.FillBeans(amountBeans).Wait();
 
-            return CoffeeMessage.Ok; //coffeeMachine.MakeCoffee(amountCoffee, coffeeStrength).Result;
+           // return CoffeeMessage.Ok; //coffeeMachine.MakeCoffee(amountCoffee, coffeeStrength).Result;
+            return coffeeMachine.Calculate(amount, coffeeStrength);
         }
 
         [TearDown]

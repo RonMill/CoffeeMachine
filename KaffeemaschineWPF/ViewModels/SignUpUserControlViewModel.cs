@@ -29,15 +29,11 @@ namespace KaffeemaschineWPF.ViewModels
         private string _username;
         private string _balance;
         private bool _isRegisterSuccssed;
-
         private readonly DatabaseManager databaseManager = new DatabaseManager();
         private readonly IRegionManager _regionManager;
-
         public ICommand SignUpCommand { get; }
         public ICommand PasswordChangedCommand { get; }
         public ICommand BackToLoginCommand { get; }
-
-        //Properties
         public string FirstName
         {
             get { return _firstName; }
@@ -88,7 +84,6 @@ namespace KaffeemaschineWPF.ViewModels
             get { return _isRegisterSuccssed; }
             set { SetProperty(ref _isRegisterSuccssed, value); }
         }
-        //Ctor
         public SignUpUserControlViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
@@ -96,7 +91,6 @@ namespace KaffeemaschineWPF.ViewModels
             BackToLoginCommand = new RelayCommand(GoToLogin);
             PasswordChangedCommand = new RelayCommandGen<RoutedEventArgs>(PasswordChanged);
         }
-
         private void Navigate(string navigatePath)
         {
             if (navigatePath != null)
@@ -106,19 +100,15 @@ namespace KaffeemaschineWPF.ViewModels
         {
             Navigate(nameof(LoginUserControl));
         }
-
         ~SignUpUserControlViewModel()
         {
             databaseManager.Dispose();
         }
-
-        //Methods
         private void AddUserMethod()
         {
             (string street, int housenumber) = SplitStreetHousenumber();
             databaseManager.AddUser(new User(FirstName, LastName, Email, street, housenumber, Postcode, City, Username, Password.HashPassword(), Balance));
             MessageBox.Show("Registrierung erfolgreich", "Registrierung erfolgreich", MessageBoxButton.OKCancel, MessageBoxImage.Information);
-
         }
         private (string street, int housenumber) SplitStreetHousenumber()
         {
@@ -130,7 +120,6 @@ namespace KaffeemaschineWPF.ViewModels
             return !string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName) && !string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(StreetAndHouseNumber)
                 && !string.IsNullOrEmpty(Postcode) && !string.IsNullOrEmpty(City) && !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Balance);
         }
-
         private void PasswordChanged(RoutedEventArgs args)
         {
             if (args.Source is PasswordBox passwordBox)

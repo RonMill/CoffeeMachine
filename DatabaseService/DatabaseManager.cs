@@ -13,8 +13,10 @@ namespace DatabaseService
         public DatabaseManager()
         {
             sQLiteConnection = new SQLiteConnection("Data Source=CoffeeDatabase.db;Version=3");
-            sQLiteCommand = new SQLiteCommand();
-            sQLiteCommand.Connection = sQLiteConnection;
+            sQLiteCommand = new SQLiteCommand
+            {
+                Connection = sQLiteConnection
+            };
         }
         public void CreateDatabase()
         {
@@ -44,12 +46,7 @@ namespace DatabaseService
             CreateDatabase();
             CreateDatabaseTable();
             sQLiteConnection.Open();
-            //sQLiteCommand.CommandText = "INSERT INTO User VALUES (" + user.FirstName + "," + user.LastName + "," + user.Email + "," + user.Street
-            //+ "," + user.Housenumber + "," + user.Postcode + "," + user.City + "," + user.Username + "," + user.Password + ")";
-            //sQLiteCommand.CommandText = string.Join("\',\'", "INSERT INTO User VALUES (" + null +",\'"+ user.FirstName, user.LastName, user.Email, user.Street, user.Housenumber, user.Postcode, user.City, user.Username, user.Password+"\')");
-
             sQLiteCommand.CommandText = $"INSERT INTO User VALUES ( null, '{user.FirstName}', '{user.LastName}', '{user.Email}', '{user.Street}', '{ user.Housenumber}', '{user.Postcode}', '{ user.City}', '{ user.Username}', '{ user.Password }', '{ user.Balance }')";
-
             int a = sQLiteCommand.ExecuteNonQuery();
             sQLiteConnection.Close();
             return a;
@@ -58,8 +55,9 @@ namespace DatabaseService
         {
             sQLiteConnection.Open();
             sQLiteCommand.CommandText = $"SELECT FirstName, LastName, Email, Balance FROM User WHERE Username='{user.Username}'";
-            
-            using (SQLiteDataReader sQLiteDataReader = sQLiteCommand.ExecuteReader()) 
+            /*The reason for the using statement is to ensure that the object is disposed as soon as it goes out of scope, 
+             * and it doesn't require explicit code to ensure that this happens.*/
+            using (SQLiteDataReader sQLiteDataReader = sQLiteCommand.ExecuteReader())
             {
                 sQLiteDataReader.Read();
                 user.FirstName = sQLiteDataReader.GetString(0);
@@ -69,7 +67,7 @@ namespace DatabaseService
             }
             sQLiteConnection.Close();
         }
-        public void ChangeBalance(IUser user, double amount)
+        public void ChangeBalance(IUser user)
         {
             sQLiteConnection.Open();
             sQLiteCommand.CommandText = $"UPDATE User SET Balance='{user.Balance}' WHERE Username='{user.Username}'";
