@@ -13,7 +13,6 @@ namespace KaffeemaschineWPF.Models
         private double _water;
         private double _beans;
         private double _totalAmount;
-        private double _priceToPay;
         private readonly MediaManager mediaManager;
         public double MaxWater { get; }
         public double MaxBeans { get; }
@@ -31,11 +30,6 @@ namespace KaffeemaschineWPF.Models
         {
             get => _totalAmount;
             set => SetProperty(ref _totalAmount, value);
-        }
-        public double PriceToPay
-        {
-            get => _priceToPay;
-            set => SetProperty(ref _priceToPay, value);
         }
         public CoffeeMachine()
         {
