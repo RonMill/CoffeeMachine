@@ -35,6 +35,7 @@ namespace KaffeemaschineWPF.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly DatabaseManager databaseManager = new DatabaseManager();
 
+        private readonly Cashout cashout;
         public ICommand FillWaterCommand { get; }
         public ICommand FillBeansCommand { get; }
         public ICommand MakeCoffeeCommand { get; }
@@ -116,11 +117,10 @@ namespace KaffeemaschineWPF.ViewModels
             Lastname = _userStates.User.LastName;
             Email = _userStates.User.Email;
             Balance = _userStates.User.Balance;
-
         }
-        private void RefreshPrice()
+        private async void RefreshPrice()
         {
-            KaffeeMaschine.GetPriceToPay(SelectedCoffeeBrand, MakeCoffeeAmount);
+            KaffeeMaschine.PriceToPay = await cashout.GetPriceToPay(SelectedCoffeeBrand, MakeCoffeeAmount);
         }
         private void Navigate(string navigatePath)
         {

@@ -60,14 +60,14 @@
     </ApplicationDefinition>
     <Compile Include="APIService\CoffeeAPI.cs" />
     <Compile Include="APIService\CoffeeAPIData.cs" />
+    <Compile Include="APIService\CurrencyAPI.cs" />
+    <Compile Include="APIService\CurrencyAPIData.cs" />
     <Compile Include="Behaviors\TextBoxBehavior.cs" />
     <Compile Include="Const\Regions.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Framework\RelayCommandGen.cs" />
     <Compile Include="MediaManager.cs" />
-    <Compile Include="Models\CoffeeBrand.cs" />
-    <Compile Include="Models\CoffeeMachineTasks.cs" />
-    <Compile Include="Models\CoffeeStrength.cs" />
+    <Compile Include="Models\Cashout.cs" />
     <Compile Include="Framework\RelayCommand.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="States\IUserStates.cs" />
