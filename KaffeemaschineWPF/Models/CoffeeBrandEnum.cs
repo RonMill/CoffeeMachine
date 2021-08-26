@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KaffeemaschineWPF.Models
 {
-    public enum CoffeeBrand
+    public enum CoffeeBrandEnum
     {
         [Description("PCOFFOTM_USD")]
         Arabica,

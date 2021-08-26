@@ -9,9 +9,18 @@ namespace KaffeemaschineWPF.Models
 {
     public class User : IUser
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Street { get; set; }
+        public int Housenumber { get; set; }
+        public string Postcode { get; set; }
+        public string City { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Balance { get; set; }
         public User()
         {
-
         }
         public User(string firstName, string lastName, string email, string street, int housenumber, string postcode, string city, string username, string password, string balance)
         {
@@ -31,16 +40,5 @@ namespace KaffeemaschineWPF.Models
             Username = username;
             Password = password;
         }
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Street { get; set; }
-        public int Housenumber { get; set; }
-        public string Postcode { get; set; }
-        public string City { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Balance { get; set; }
     }
 }

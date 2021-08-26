@@ -248,6 +248,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock
                     HorizontalAlignment="Center"
@@ -336,7 +337,8 @@
                                             <Binding
                                                 Mode="TwoWay"
                                                 Path="IsSelected"
-                                                RelativeSource="{RelativeSource AncestorType=ListBoxItem}" />
+                                                RelativeSource="{RelativeSource AncestorType=ListBoxItem}"
+                                                UpdateSourceTrigger="PropertyChanged" />
                                         </RadioButton.IsChecked>
                                     </RadioButton>
                                 </DataTemplate>
@@ -344,7 +346,10 @@
                         </ListBox>
                     </StackPanel>
                 </Grid>
-                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                <StackPanel
+                    Grid.Row="4"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
                     <TextBlock
                         Margin="5"
                         VerticalAlignment="Center"
@@ -354,15 +359,19 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Text="{Binding KaffeeMaschine.PriceToPay, StringFormat=N2}" />
-                    <Button
-                        Margin="5"
-                        Padding="3"
+                    <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Command="{Binding MakeCoffeeCommand, IsAsync=True}"
-                        Content="Zubereiten" />
+                        Text="€" />
                 </StackPanel>
-
+                <Button
+                    Grid.Row="5"
+                    Margin="5"
+                    Padding="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Command="{Binding MakeCoffeeCommand, IsAsync=True}"
+                    Content="Zubereiten" />
 
             </Grid>
         </Grid>
@@ -386,16 +395,34 @@
                 FontSize="15"
                 Text="Benutzerinformationen"
                 TextDecorations="Underline" />
-            <TextBlock Grid.Row="1" Text="Angemeldeter User:  " TextDecorations="Underline"/>
-            <TextBlock Grid.Row="2" Text="Vorname: "/>
-            <TextBlock Grid.Row="3" Text="Nachname: "/>
-            <TextBlock Grid.Row="4" Text="Email: "/>
-            <TextBlock Grid.Row="5" Text="Guthaben: "/>
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Username}"/>
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Firstname}"/>
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Lastname}"/>
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Email}"/>
-            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Balance}"/>
+            <TextBlock
+                Grid.Row="1"
+                Text="Angemeldeter User:  "
+                TextDecorations="Underline" />
+            <TextBlock Grid.Row="2" Text="Vorname: " />
+            <TextBlock Grid.Row="3" Text="Nachname: " />
+            <TextBlock Grid.Row="4" Text="Email: " />
+            <TextBlock Grid.Row="5" Text="Guthaben: " />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding Username}" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                Text="{Binding Firstname}" />
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="1"
+                Text="{Binding Lastname}" />
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="1"
+                Text="{Binding Email}" />
+            <TextBlock
+                Grid.Row="5"
+                Grid.Column="1"
+                Text="{Binding Balance}" />
 
         </Grid>
         <Image

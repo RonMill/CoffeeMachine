@@ -11,25 +11,20 @@ namespace KaffeemaschineWPF.Framework
     {
         private readonly Action<T> _execute;
         private readonly Func<bool> _canExecute;
-
-        public RelayCommandGen(Action<T> execute , Func<bool> canexecute = null)
+        public RelayCommandGen(Action<T> execute, Func<bool> canexecute = null)
         {
             _execute = execute;
             _canExecute = canexecute;
         }
-
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
             remove => CommandManager.RequerySuggested -= value;
         }
-
         public bool CanExecute(object parameter)
         {
-
             return _canExecute?.Invoke() ?? true;
         }
-
         public void Execute(object parameter)
         {
             _execute((T)parameter);

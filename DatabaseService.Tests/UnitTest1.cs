@@ -25,7 +25,7 @@ namespace DatabaseService.Tests
             databaseManager.CreateDatabaseTable();
         }
 
-        private static List<TestCaseData> User => new List<TestCaseData>
+        private static List<TestCaseData> User => new()
         {
             new TestCaseData(new User
             {

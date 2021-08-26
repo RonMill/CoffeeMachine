@@ -14,9 +14,8 @@ namespace KaffeemaschineWPF.ValidationRules
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            if(string.IsNullOrEmpty(value?.ToString()))
+            if (string.IsNullOrEmpty(value?.ToString()))
                 return new ValidationResult(false, "Bitte E-Mail Adresse eintragen ");
-
             try
             {
                 MailAddress m = new MailAddress(value.ToString());

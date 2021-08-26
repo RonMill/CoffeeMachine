@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaffeemaschineWPF.Models {
-    public enum CoffeeMachineTasks {
+namespace KaffeemaschineWPF.Models
+{
+    public enum CoffeeMachineTasksEnum
+    {
         FillBeans,
         FillWater,
         MakeEspresso,
