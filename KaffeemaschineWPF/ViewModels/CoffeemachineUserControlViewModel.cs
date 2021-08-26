@@ -6,13 +6,7 @@ using KaffeemaschineWPF.States;
 using KaffeemaschineWPF.Views;
 using Prism.Regions;
 using Prism.Services.Dialogs;
-using SharedObjects;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -154,6 +148,12 @@ namespace KaffeemaschineWPF.ViewModels
         }
         private async void MakeCoffeeAndShowMessage()
         {
+            double newBalance = Math.Round(Convert.ToDouble(_userStates.User.Balance) - Convert.ToDouble(Kasse.PriceToPay), 2);
+            if (newBalance < 0)
+            {
+                MessageBox.Show("Nicht genügen Guthaben.\nBitte Guthaben aufladen");
+                return;
+            }
             var text = KaffeeMaschine.Calculate(MakeCoffeeAmount, SelectedCoffeeStrength);
             if (text != CoffeeMessageEnum.Ok)
             {
@@ -166,7 +166,6 @@ namespace KaffeemaschineWPF.ViewModels
             await KaffeeMaschine.MakeCoffeeSound();
             IsCoffeeVisible = false;
             _isMakingCoffee = false;
-            double newBalance = Math.Round(Convert.ToDouble(_userStates.User.Balance) - Convert.ToDouble(Kasse.PriceToPay), 2);
             Kasse.ChangeBalance(_userStates.User, newBalance);
             SetUserInformations();
         }
