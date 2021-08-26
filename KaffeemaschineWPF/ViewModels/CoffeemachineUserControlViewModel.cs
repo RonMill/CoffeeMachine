@@ -1,6 +1,5 @@
 ﻿using DatabaseService;
 using KaffeemaschineWPF.Const;
-using KaffeemaschineWPF.Dialogbox;
 using KaffeemaschineWPF.Framework;
 using KaffeemaschineWPF.Models;
 using KaffeemaschineWPF.States;
@@ -128,9 +127,7 @@ namespace KaffeemaschineWPF.ViewModels
 
         private void RefillBalance()
         {
-            //string promptValue = Prompt.ShowDialog("Betrag in Euro", "Guthaben aufladen");
             _dialogService.ShowDialog(nameof(FillBalanceView));
-            //Kasse.ChangeBalance(_userStates.User,Convert.ToDouble(_userStates.User.Balance)+2);
             SetUserInformations();
         }
 
