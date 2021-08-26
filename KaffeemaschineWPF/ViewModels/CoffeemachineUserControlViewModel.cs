@@ -1,10 +1,12 @@
 ﻿using DatabaseService;
 using KaffeemaschineWPF.Const;
+using KaffeemaschineWPF.Dialogbox;
 using KaffeemaschineWPF.Framework;
 using KaffeemaschineWPF.Models;
 using KaffeemaschineWPF.States;
 using KaffeemaschineWPF.Views;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 using SharedObjects;
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,7 @@ namespace KaffeemaschineWPF.ViewModels
         private double _fillWaterAmount;
         private double _fillBeansAmount;
         private double _makeCoffeeAmount;
+        private double _refillBalanceAmount;
         private bool _isCoffeeVisible;
         private bool _isMakingCoffee;
         private bool _isRefilling;
@@ -34,11 +37,13 @@ namespace KaffeemaschineWPF.ViewModels
         private readonly IUserStates _userStates;
         private readonly IRegionManager _regionManager;
         private readonly DatabaseManager databaseManager = new DatabaseManager();
+        private readonly IDialogService _dialogService;
         public ICommand FillWaterCommand { get; }
         public ICommand FillBeansCommand { get; }
         public ICommand MakeCoffeeCommand { get; }
         public ICommand BackToLoginCommand { get; }
         public ICommand RefreshCommand { get; }
+        public ICommand RefillBalanceCommand { get; }
         public Cashout Kasse { get; }
         public CoffeeMachine KaffeeMaschine { get; }
         public bool IsCoffeeVisible
@@ -64,6 +69,11 @@ namespace KaffeemaschineWPF.ViewModels
                 SetProperty(ref _makeCoffeeAmount, value);
                 RefreshPrice();
             }
+        }
+        public double RefillBalanceAmount
+        {
+            get => _refillBalanceAmount;
+            set => SetProperty(ref _refillBalanceAmount, value);
         }
         public string Username
         {
@@ -100,10 +110,11 @@ namespace KaffeemaschineWPF.ViewModels
                 RefreshPrice();
             }
         }
-        public CoffeemachineUserControlViewModel(IRegionManager regionManager, IUserStates userStates)
+        public CoffeemachineUserControlViewModel(IRegionManager regionManager, IUserStates userStates, IDialogService dialogService)
         {
             _regionManager = regionManager;
             _userStates = userStates;
+            _dialogService = dialogService;
             KaffeeMaschine = new CoffeeMachine();
             Kasse = new Cashout();
             FillWaterCommand = new RelayCommand(FillWaterMethod, () => FillWaterAmount > 0 && !_isRefilling);
@@ -111,8 +122,18 @@ namespace KaffeemaschineWPF.ViewModels
             MakeCoffeeCommand = new RelayCommand(MakeCoffeeAndShowMessage, () => MakeCoffeeAmount > 0 && !_isMakingCoffee);
             BackToLoginCommand = new RelayCommand(GoToLogin);
             RefreshCommand = new RelayCommand(RefreshPrice);
+            RefillBalanceCommand = new RelayCommand(RefillBalance);
             SetUserInformations();
         }
+
+        private void RefillBalance()
+        {
+            //string promptValue = Prompt.ShowDialog("Betrag in Euro", "Guthaben aufladen");
+            _dialogService.ShowDialog(nameof(FillBalanceView));
+            //Kasse.ChangeBalance(_userStates.User,Convert.ToDouble(_userStates.User.Balance)+2);
+            SetUserInformations();
+        }
+
         private void SetUserInformations()
         {
             Username = _userStates.User.Username;
@@ -130,7 +151,10 @@ namespace KaffeemaschineWPF.ViewModels
             if (navigatePath != null)
                 _regionManager.RequestNavigate(Regions.CONTENT_REGION, navigatePath);
         }
-        private void GoToLogin() => Navigate(nameof(LoginUserControl));
+        private void GoToLogin()
+        { 
+            Navigate(nameof(LoginUserControl));
+        }
         private async void MakeCoffeeAndShowMessage()
         {
             var text = KaffeeMaschine.Calculate(MakeCoffeeAmount, SelectedCoffeeStrength);
@@ -145,8 +169,8 @@ namespace KaffeemaschineWPF.ViewModels
             await KaffeeMaschine.MakeCoffeeSound();
             IsCoffeeVisible = false;
             _isMakingCoffee = false;
-            _userStates.User.Balance = Math.Round(Convert.ToDouble(_userStates.User.Balance) - Convert.ToDouble(Kasse.PriceToPay), 2).ToString();
-            databaseManager.ChangeBalance(_userStates.User);
+            double newBalance = Math.Round(Convert.ToDouble(_userStates.User.Balance) - Convert.ToDouble(Kasse.PriceToPay), 2);
+            Kasse.ChangeBalance(_userStates.User, newBalance);
             SetUserInformations();
         }
         private async void FillWaterMethod()

@@ -11,7 +11,9 @@
     xmlns:viewmodels="clr-namespace:KaffeemaschineWPF.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:SignUpUserControlViewModel}"
     d:DesignHeight="550"
-    d:DesignWidth="300"
+    d:DesignWidth="350"
+    Height="550"
+    Width="350"
     mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

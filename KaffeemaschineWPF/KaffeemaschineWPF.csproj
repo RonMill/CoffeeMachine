@@ -77,10 +77,14 @@
     <Compile Include="States\UserStates.cs" />
     <Compile Include="ValidationRules\EmailRule.cs" />
     <Compile Include="ValidationRules\OneSpaceRule.cs" />
+    <Compile Include="ViewModels\FillBalancelViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\SignUpUserControlViewModel.cs" />
     <Compile Include="Views\CoffeemachineUserControl.xaml.cs">
       <DependentUpon>CoffeemachineUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FillBalanceView.xaml.cs">
+      <DependentUpon>FillBalanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginUserControl.xaml.cs">
       <DependentUpon>LoginUserControl.xaml</DependentUpon>
@@ -89,6 +93,10 @@
       <DependentUpon>SignUpUserControl.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\CoffeemachineUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FillBalanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

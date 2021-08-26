@@ -67,10 +67,10 @@ namespace DatabaseService
             }
             sQLiteConnection.Close();
         }
-        public void ChangeBalance(IUser user)
+        public void ChangeBalance(IUser user, double newBalance)
         {
             sQLiteConnection.Open();
-            sQLiteCommand.CommandText = $"UPDATE User SET Balance='{user.Balance}' WHERE Username='{user.Username}'";
+            sQLiteCommand.CommandText = $"UPDATE User SET Balance='{newBalance}' WHERE Username='{user.Username}'";
             sQLiteCommand.ExecuteNonQuery();
             sQLiteConnection.Close();
         }

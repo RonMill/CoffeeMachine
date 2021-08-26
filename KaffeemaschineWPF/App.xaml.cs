@@ -1,4 +1,5 @@
 ﻿using KaffeemaschineWPF.States;
+using KaffeemaschineWPF.ViewModels;
 using KaffeemaschineWPF.Views;
 using Prism.Ioc;
 using Prism.Unity;
@@ -27,6 +28,7 @@ namespace KaffeemaschineWPF {
             containerRegistry.RegisterForNavigation<LoginUserControl>();
             containerRegistry.RegisterForNavigation<CoffeemachineUserControl>();
             containerRegistry.RegisterSingleton<IUserStates,UserStates>();
+            containerRegistry.RegisterDialog<FillBalanceView, FillBalancelViewModel>();
         }
     }
 }

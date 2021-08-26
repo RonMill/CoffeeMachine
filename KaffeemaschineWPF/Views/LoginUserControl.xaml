@@ -9,9 +9,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewmodels="clr-namespace:KaffeemaschineWPF.ViewModels"
+    Width="250"
+    Height="300"
     d:DataContext="{d:DesignInstance Type=viewmodels:LoginUserControlViewModel}"
     d:DesignHeight="300"
-    d:DesignWidth="200"
+    d:DesignWidth="250"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>

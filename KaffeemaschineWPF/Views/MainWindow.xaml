@@ -8,8 +8,9 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:const="clr-namespace:KaffeemaschineWPF.Const"
     Title="Ronnys Coffeeshop"
-    Width="800"
-    Height="600"
+    SizeToContent="WidthAndHeight"
+    Width="{Binding ActualWidth,ElementName=ContentControl}"
+    Height="{Binding ActualHeight,ElementName=ContentControl}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
 
@@ -19,6 +20,6 @@
         </e:EventTrigger>
     </e:Interaction.Triggers>
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="{x:Static const:Regions.CONTENT_REGION}" />
+        <ContentControl prism:RegionManager.RegionName="{x:Static const:Regions.CONTENT_REGION}" x:Name="ContentControl"/>
     </Grid>
 </Window>

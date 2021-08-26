@@ -11,6 +11,8 @@
     d:DataContext="{d:DesignInstance Type=viewmodels:CoffeemachineUserControlViewModel}"
     d:DesignHeight="550"
     d:DesignWidth="950"
+    Height="550"
+    Width="950"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -387,6 +389,7 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <TextBlock
                 Grid.ColumnSpan="2"
@@ -397,32 +400,67 @@
                 TextDecorations="Underline" />
             <TextBlock
                 Grid.Row="1"
+                Margin="2"
                 Text="Angemeldeter User:  "
                 TextDecorations="Underline" />
-            <TextBlock Grid.Row="2" Text="Vorname: " />
-            <TextBlock Grid.Row="3" Text="Nachname: " />
-            <TextBlock Grid.Row="4" Text="Email: " />
-            <TextBlock Grid.Row="5" Text="Guthaben: " />
+            <TextBlock
+                Grid.Row="2"
+                Margin="2"
+                Text="Vorname: " />
+            <TextBlock
+                Grid.Row="3"
+                Margin="2"
+                Text="Nachname: " />
+            <TextBlock
+                Grid.Row="4"
+                Margin="2"
+                Text="Email: " />
+            <TextBlock
+                Grid.Row="5"
+                Margin="2"
+                Text="Guthaben: " />
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="1"
+                Margin="2"
                 Text="{Binding Username}" />
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="1"
+                Margin="2"
                 Text="{Binding Firstname}" />
             <TextBlock
                 Grid.Row="3"
                 Grid.Column="1"
+                Margin="2"
                 Text="{Binding Lastname}" />
             <TextBlock
                 Grid.Row="4"
                 Grid.Column="1"
+                Margin="2"
                 Text="{Binding Email}" />
-            <TextBlock
+            <StackPanel
                 Grid.Row="5"
                 Grid.Column="1"
-                Text="{Binding Balance}" />
+                Orientation="Horizontal">
+                <TextBlock
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Margin="2"
+                    Text="{Binding Balance}" />
+                <TextBlock
+                    Margin="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="€" />
+            </StackPanel>
+
+            <Button
+                Grid.Row="6"
+                Grid.ColumnSpan="2"
+                Margin="5"
+                Command="{Binding RefillBalanceCommand}"
+                Content="Guthaben aufladen" />
 
         </Grid>
         <Image
