@@ -18,6 +18,7 @@ namespace KaffeemaschineWPF.ViewModels
         private double _fillBeansAmount;
         private double _makeCoffeeAmount;
         private double _refillBalanceAmount;
+        private string _displayCoffeemachineText;
         private bool _isCoffeeVisible;
         private bool _isMakingCoffee;
         private bool _isRefilling;
@@ -93,6 +94,16 @@ namespace KaffeemaschineWPF.ViewModels
             get => _balance;
             set => SetProperty(ref _balance, value);
         }
+        public string DisplayCoffeemachineText
+        {
+            get => _displayCoffeemachineText;
+            set => SetProperty(ref _displayCoffeemachineText, value);
+        }
+        public bool IsMakingCoffee 
+        {
+            get => _isMakingCoffee;
+            set => SetProperty(ref _isMakingCoffee, value);
+        }
         public CoffeeStrengthEnum SelectedCoffeeStrength { get; set; }
         public CoffeeBrandEnum SelectedCoffeeBrand
         {
@@ -160,12 +171,16 @@ namespace KaffeemaschineWPF.ViewModels
                 ShowMessage(text);
                 return;
             }
-            _isMakingCoffee = true;
-            await KaffeeMaschine.PrepareCoffee();
+            IsMakingCoffee = true;
+            DisplayCoffeemachineText = "Pumpe Wasser";
+            await KaffeeMaschine.PumpWater();
+            DisplayCoffeemachineText = "Mahle Kaffee";
+            await KaffeeMaschine.GrindCoffee();
+            DisplayCoffeemachineText = "Brühe Kaffee";
             IsCoffeeVisible = true;
             await KaffeeMaschine.MakeCoffeeSound();
             IsCoffeeVisible = false;
-            _isMakingCoffee = false;
+            IsMakingCoffee = false;
             Kasse.ChangeBalance(_userStates.User, newBalance);
             SetUserInformations();
         }

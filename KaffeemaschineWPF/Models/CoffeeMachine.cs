@@ -69,9 +69,12 @@ namespace KaffeemaschineWPF.Models
                 default: return 0;
             }
         }
-        public async Task PrepareCoffee()
+        public async Task GrindCoffee()
         {
             await mediaManager.LoadSound(CoffeeMachineTasksEnum.GrindCoffee);
+        }
+        public async Task PumpWater()
+        {
             await mediaManager.LoadSound(CoffeeMachineTasksEnum.Pump);
         }
         public async Task MakeCoffeeSound(/*double amount, CoffeeStrength coffeeStrength*/)

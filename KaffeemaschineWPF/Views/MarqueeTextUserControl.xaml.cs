@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,13 +26,30 @@ namespace KaffeemaschineWPF.Views
         public MarqueeTextUserControl()
         {
             InitializeComponent();
+            TextBlockMain.DataContext = this;
             CanvasMain.Height = Height;
             CanvasMain.Width = Width;
         }
 
         public ScrollDirection ScrollDirection { get; set; }
         public double ScrollDurationInSeconds { get; set; }
-        public String Text { set { TextBlockMain.Text = value; } }
+
+        //public String Text { set { TextBlockMain.Text = value; } }
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set
+            {
+                //TextBlockMain.SetCurrentValue(TextBlock.TextProperty, value);
+                //TextBlockMain.Text = value;
+                //TextBlockMain.GetBindingExpression(TextBlock.TextProperty).UpdateSource();
+                SetValue(TextProperty, value);
+            }
+        }
+
+        // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextProperty =
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(MarqueeTextUserControl), new PropertyMetadata(string.Empty));
 
         public void ScrollText(ScrollDirection scrollDirection)
         {

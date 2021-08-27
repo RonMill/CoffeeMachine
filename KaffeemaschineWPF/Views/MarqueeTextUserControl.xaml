@@ -4,13 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Loaded="UserControl_Loaded">
+    Loaded="UserControl_Loaded"
+    mc:Ignorable="d">
 
     <Canvas
         Name="CanvasMain"
         Width="100"
         ClipToBounds="True">
-        <TextBlock Name="TextBlockMain" />
+        <TextBlock Name="TextBlockMain" Text="{Binding Text}" />
     </Canvas>
 
 </UserControl>

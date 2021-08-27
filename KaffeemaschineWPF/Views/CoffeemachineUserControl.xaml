@@ -24,7 +24,7 @@
         </Storyboard>
         <conv:EnumToCollectionConverter x:Key="EnumToCollectionConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <conv:BooleanToVisibilityConverterCustom x:Key="BooleanToVisibilityConverterCustom"/>
+        <conv:BooleanToVisibilityConverterCustom x:Key="BooleanToVisibilityConverterCustom" />
         <Style x:Key="IsCoffeeVisibleImage" TargetType="Image">
             <Setter Property="Width" Value="3" />
             <Setter Property="Grid.Row" Value="3" />
@@ -487,13 +487,12 @@
             FontWeight="Bold"
             Foreground="Brown"
             ScrollDirection="RightToLeft"
-            ScrollDurationInSeconds="4"
-            Text="In Arbeit"
-            Visibility="{Binding IsCoffeeVisible, Converter={StaticResource BooleanToVisibilityConverterCustom}}">
+            ScrollDurationInSeconds="2"
+            Text="{Binding DisplayCoffeemachineText}"
+            Visibility="{Binding IsMakingCoffee, Converter={StaticResource BooleanToVisibilityConverterCustom}}">
             <local:MarqueeTextUserControl.RenderTransform>
                 <TranslateTransform X="1" Y="-61" />
             </local:MarqueeTextUserControl.RenderTransform>
         </local:MarqueeTextUserControl>
     </Grid>
-      
 </UserControl>
