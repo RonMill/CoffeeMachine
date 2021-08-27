@@ -26,14 +26,14 @@
         </Style>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
-    <StackPanel>
+    <StackPanel FocusManager.FocusedElement="{Binding ElementName=tbUsername}">
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"
             FontSize="18"
             Text="User Login" />
         <TextBlock Margin="5" Text="Benutzername" />
-        <TextBox Margin="5" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+        <TextBox x:Name="tbUsername" Margin="5" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
             <e:Interaction.Behaviors>
                 <b:TextBoxBehavior AllowWhiteSpaces="False" RegExPattern="[A-Za-z0-9]" />
             </e:Interaction.Behaviors>

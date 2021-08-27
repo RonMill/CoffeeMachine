@@ -18,11 +18,6 @@ namespace DatabaseService
                 Connection = sQLiteConnection
             };
         }
-        public void CreateDatabase()
-        {
-            if (!File.Exists("CoffeeDatabase.db"))
-                SQLiteConnection.CreateFile("CoffeeDatabase.db");
-        }
         public void CreateDatabaseTable()
         {
             sQLiteConnection.Open();
@@ -34,6 +29,7 @@ namespace DatabaseService
 
         public bool Login(IUser user)
         {
+            CreateDatabaseTable();
             sQLiteConnection.Open();
             sQLiteCommand.CommandText = $"SELECT Username, Password FROM User WHERE Username='{user.Username}' AND Password='{user.Password}'";
             string str = sQLiteCommand.ExecuteScalar()?.ToString();
@@ -43,7 +39,6 @@ namespace DatabaseService
 
         public int AddUser(IUser user)
         {
-            CreateDatabase();
             CreateDatabaseTable();
             sQLiteConnection.Open();
             sQLiteCommand.CommandText = $"INSERT INTO User VALUES ( null, '{user.FirstName}', '{user.LastName}', '{user.Email}', '{user.Street}', '{ user.Housenumber}', '{user.Postcode}', '{ user.City}', '{ user.Username}', '{ user.Password }', '{ user.Balance }')";
