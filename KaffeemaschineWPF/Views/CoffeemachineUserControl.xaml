@@ -21,10 +21,10 @@
                 Storyboard.TargetProperty="Width"
                 To="10"
                 Duration="0:0:2.5" />
-
         </Storyboard>
         <conv:EnumToCollectionConverter x:Key="EnumToCollectionConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <conv:BooleanToVisibilityConverterCustom x:Key="BooleanToVisibilityConverterCustom"/>
         <Style x:Key="IsCoffeeVisibleImage" TargetType="Image">
             <Setter Property="Width" Value="3" />
             <Setter Property="Grid.Row" Value="3" />
@@ -478,31 +478,22 @@
                 <TranslateTransform X="16" Y="-3" />
             </Image.RenderTransform>
         </Image>
-        <TextBlock Grid.Row="3" Grid.Column="3"
-            Name="MyWipedText"
-            Width="250"
-            Height="30"
-            Margin="20"
-            FontSize="20"
+        <local:MarqueeTextUserControl
+            x:Name="MarqueeTextBlock"
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="65"
+            Height="15"
             FontWeight="Bold"
-            Foreground="Maroon">
-            This is wiped text
-            <!--  Animates the text block's width.  -->
-            <TextBlock.Triggers>
-                <EventTrigger RoutedEvent="TextBlock.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation
-                                AutoReverse="True"
-                                RepeatBehavior="Forever"
-                                Storyboard.TargetName="MyWipedText"
-                                Storyboard.TargetProperty="(TextBlock.Width)"
-                                To="0.0"
-                                Duration="0:0:10" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </TextBlock.Triggers>
-        </TextBlock>
+            Foreground="Brown"
+            ScrollDirection="RightToLeft"
+            ScrollDurationInSeconds="4"
+            Text="In Arbeit"
+            Visibility="{Binding IsCoffeeVisible, Converter={StaticResource BooleanToVisibilityConverterCustom}}">
+            <local:MarqueeTextUserControl.RenderTransform>
+                <TranslateTransform X="1" Y="-61" />
+            </local:MarqueeTextUserControl.RenderTransform>
+        </local:MarqueeTextUserControl>
     </Grid>
+      
 </UserControl>
