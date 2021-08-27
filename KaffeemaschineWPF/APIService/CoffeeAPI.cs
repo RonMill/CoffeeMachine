@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -26,8 +27,9 @@ namespace KaffeemaschineWPF.APIService
         }
         public async Task<double> GetCoffeePrice(CoffeeBrandEnum coffeeBrand)
         {
+            string apiKey = File.ReadAllText("APIKeys\\QuandlKey.txt");
             string description = GetEnumDescription(coffeeBrand);
-            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync("ODA/" + description + "?api_key=EN3Epzvu9P6AVvcTPJTV");
+            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync($"ODA/{ description}?api_key={apiKey}");
             httpResponseMessage.EnsureSuccessStatusCode();
             string coffeestring = await httpResponseMessage.Content.ReadAsStringAsync();
             CoffeeAPIData coffeeAPIData = JsonConvert.DeserializeObject<CoffeeAPIData>(coffeestring);

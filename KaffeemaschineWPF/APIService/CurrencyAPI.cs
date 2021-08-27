@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -23,7 +24,8 @@ namespace KaffeemaschineWPF.APIService
         }
         public async Task<double> GetCurrencyExchangeRateUSDEUR()
         {
-            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync("latest?access_key=dcf7c05537a98563c0950d29fa30c31c");
+            string apiKey = File.ReadAllText("APIKeys\\FixerKey.txt");
+            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync($"latest?access_key={apiKey}");
             httpResponseMessage.EnsureSuccessStatusCode();
             string currencyString = await httpResponseMessage.Content.ReadAsStringAsync();
             CurrencyAPIData currencyAPIData = JsonConvert.DeserializeObject<CurrencyAPIData>(currencyString);
